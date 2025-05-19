@@ -1,11 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perdida Modelo Secuencial</title>
-</head>
-<body>
-    <h1>Perdida Modelo Secuencial</h1>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.0.0/dist/tf.min.js"></script>
+      <style>
+    :root{
+      display:flex;
+      height: 100vw;
+      width: 100wh;
+      justify-content: center;
+      align-items: center;
+      background-color: lightsteelblue;
+    }
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+  </style> 
+<h3>El resutado se muestra por consolona.</h3>
+    <script>
+      // Tidy to auto-clean all these tensors
+      tf.tidy(() => {
+        const users = ['Gant', 'Todd', 'Jed', 'Justin']
+        const bands = [
+            'Nirvana',
+            'Nine Inch Nails',
+            'Backstreet Boys',
+            'N Sync',
+            'Night Club',
+            'Apashe',
+            'STP',
+        ]
+        const features = [
+            'Grunge',
+            'Rock',
+            'Industrial',
+            'Boy Band',
+            'Dance',
+            'Techno',
+        ]
+
+        // User votes <4>
+          //Este es el tensor con las bandas
+        const user_votes = tf.tensor([
+            [10, 9, 1, 1, 8, 7, 8],
+            [6, 8, 2, 2, 0, 10, 0],
+            [0, 2, 10, 9, 3, 7, 0],
+            [7, 4, 2, 3, 6, 5, 5],
+        ])
+
+        // Music Styles <5>
+          //Este indica si la banda pertenece a un género
+        const band_feats = tf.tensor([
+            [1, 1, 0, 0, 0, 0],
+            [1, 0, 1, 0, 0, 0],
+            [0, 0, 0, 1, 1, 0],
+            [0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 1],
+            [0, 0, 1, 0, 0, 1],
+            [1, 1, 0, 0, 0, 0],
+        ])
+
+        // Estilo Favorito del usuario
+        const user_feats = tf.matMul(user_votes, band_feats)
+        // Imprimimos las respuesta
+        user_feats.print()
+
+        // Estilizamos un poco
+        const top_user_features = tf.topk(user_feats, features.length)
+        // Vovlemos a JavaScript
+        const top_genres = top_user_features.indices.arraySync()
+        // Imprimimos el resultado
+        users.map((u, i) => {
+          const rankedCategories = top_genres[i].map((v) => features[v])
+          console.log(u, rankedCategories)
+        })
+      })
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Perdida Modelo Secuencial</h1>
+      <div>
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <input type="radio" name="puntos" id="">
+        <button type="button" onclick="guardar()">Enviar</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    let preferencias = []
+    const guardar = (event) => {
+      preferencias.push(1)
+    }
+
+    const calcularPreferencias = () =>{
+      
+    }
+  </script>
+
 </html>
